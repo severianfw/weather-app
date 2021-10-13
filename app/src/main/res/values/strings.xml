@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Weather App</string>
+    <string name="celsius">°C</string>
+    <string name="today">Today</string>
+    <string name="Hourly">Hourly Weather</string>
+    <string name="degrees">°</string>
 </resources>

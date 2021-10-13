@@ -5,9 +5,10 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginTop="8dp"
+    android:layout_marginEnd="4dp"
     android:background="@drawable/item_bg"
-    android:paddingHorizontal="18dp"
-    android:paddingVertical="14dp">
+    android:paddingHorizontal="12dp"
+    android:paddingVertical="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
@@ -26,8 +27,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:textSize="18sp"
+            android:layout_marginTop="10dp"
+            android:textSize="14sp"
             app:layout_constraintStart_toEndOf="@+id/ic_hour_weather"
             app:layout_constraintTop_toTopOf="@+id/ic_hour_weather"
             tools:text="12.00" />
@@ -46,14 +47,14 @@
                 android:id="@+id/tv_hour_temperature"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="32sp"
+                android:textSize="28sp"
                 tools:text="24" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
-                tools:text="°C" />
+                android:text="@string/celsius" />
 
         </LinearLayout>
 

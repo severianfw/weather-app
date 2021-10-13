@@ -4,8 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Training/Android/WeatherApp/app/src/main/res/drawable/item_bg.xml" value="0.2324074074074074" />
-        <entry key="..\:/Training/Android/WeatherApp/app/src/main/res/layout/activity_main.xml" value="0.25" />
-        <entry key="..\:/Training/Android/WeatherApp/app/src/main/res/layout/item_hour_forecast.xml" value="0.33" />
+        <entry key="..\:/Training/Android/WeatherApp/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/Training/Android/WeatherApp/app/src/main/res/layout/item_hour_forecast.xml" value="0.67" />
       </map>
     </option>
   </component>
