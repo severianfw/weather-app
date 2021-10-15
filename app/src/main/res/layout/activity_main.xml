@@ -91,11 +91,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
+            android:text="@string/degrees"
             android:textColor="@color/yellow"
             android:textSize="40sp"
             app:layout_constraintStart_toEndOf="@+id/tv_temperature"
-            app:layout_constraintTop_toTopOf="@+id/tv_temperature"
-            android:text="@string/degrees" />
+            app:layout_constraintTop_toTopOf="@+id/tv_temperature" />
     </LinearLayout>
 
     <TextView
@@ -104,21 +104,23 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="45dp"
         android:fontFamily="@font/rubik_bold"
+        android:text="@string/Hourly"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        android:text="@string/Hourly" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_hourly_weather"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="10dp"
+        android:scrollbarFadeDuration="@integer/material_motion_duration_long_1"
+        android:scrollbarStyle="outsideInset"
         android:scrollbars="horizontal"
-        tools:listitem="@layout/item_hour_forecast"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_today" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_today"
+        tools:listitem="@layout/item_hour_forecast" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

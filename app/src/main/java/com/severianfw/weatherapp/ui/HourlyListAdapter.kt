@@ -15,16 +15,12 @@ class HourlyListAdapter(private val listHourlyItem: List<HourlyItem>) :
         RecyclerView.ViewHolder(itemHourForecastBinding.root) {
 
         fun bind(item: HourlyItem) {
-            // Covert temperature from kelvin to Celsius
-            var temp = item.temperatureDetail?.temp
-            temp = temp?.minus(273.15)
-
             // Take time (HH.MM) from YYYY-10-13 HH:MM:SS
             var time = item.dtTxt
             time = time?.substring(11, 16)
             time = time?.replace(':', '.')
 
-            itemHourForecastBinding.tvHourTemperature.text = temp?.toInt().toString()
+            itemHourForecastBinding.tvHourTemperature.text = item.temperatureDetail?.temp?.toInt().toString()
             itemHourForecastBinding.tvTime.text = time.toString()
 
             val weatherIcon = WeatherIconGenerator.getWeatherDayIcon(item.weather?.get(0)?.id)
