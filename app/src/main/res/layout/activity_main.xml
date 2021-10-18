@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingHorizontal="24dp"
-    android:paddingVertical="16dp"
+    android:paddingTop="16dp"
     tools:context=".ui.MainActivity">
 
     <TextView
@@ -21,7 +21,7 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginTop="8dp"
-        android:src="@drawable/ic_loaction_black"
+        android:src="@drawable/ic_location_black"
         app:layout_constraintStart_toStartOf="@+id/tv_date"
         app:layout_constraintTop_toBottomOf="@+id/tv_date" />
 
@@ -40,10 +40,17 @@
         android:id="@+id/tv_location_country"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
         app:layout_constraintBottom_toBottomOf="@+id/ic_location"
         app:layout_constraintStart_toEndOf="@+id/tv_location_city"
         tools:text="Indonesia" />
+
+    <!--    <androidx.appcompat.widget.SwitchCompat-->
+    <!--        android:id="@+id/switchCompat"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:thumb="@drawable/ic_dark_mode"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
     <ImageView
         android:id="@+id/ic_main_weather"
@@ -121,6 +128,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_today"
         tools:listitem="@layout/item_hour_forecast" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.BottomNavigationView.PrimarySurface"
+        app:labelVisibilityMode="unlabeled"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/item_menu" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

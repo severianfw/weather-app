@@ -1,9 +1,14 @@
 package com.severianfw.weatherapp.ui
 
 import android.annotation.SuppressLint
+import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.R
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.*
 import com.severianfw.weatherapp.databinding.ActivityMainBinding
@@ -66,6 +71,17 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.hourlyList.observe(this, {
             binding.rvHourlyWeather.adapter = HourlyListAdapter(it)
         })
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val nightModeFlags = baseContext.resources.configuration.uiMode
+
+        if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES + 1) {
+            binding.icLocation.setImageResource(com.severianfw.weatherapp.R.drawable.ic_location_white)
+        } else {
+            binding.icLocation.setImageResource(com.severianfw.weatherapp.R.drawable.ic_location_black)
+        }
     }
 
     @SuppressLint("SimpleDateFormat")

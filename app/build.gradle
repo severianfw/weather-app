@@ -47,8 +47,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation "com.squareup.retrofit2:converter-gson:2.9.0"
 
-    // Blur
-    implementation 'io.alterac.blurkit:blurkit:1.1.0'
+    // Support Design
+    implementation 'com.android.support:design:30.0.0'
 
     // RecyclerView
     implementation 'androidx.recyclerview:recyclerview:1.2.1'

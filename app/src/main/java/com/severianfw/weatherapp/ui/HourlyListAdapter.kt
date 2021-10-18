@@ -1,5 +1,6 @@
 package com.severianfw.weatherapp.ui
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -20,6 +21,7 @@ class HourlyListAdapter(private val listHourlyItem: List<HourlyItem>) :
             time = time?.substring(11, 16)
             time = time?.replace(':', '.')
 
+            Log.e("TESTING", item.temperatureDetail?.temp?.toInt().toString())
             itemHourForecastBinding.tvHourTemperature.text = item.temperatureDetail?.temp?.toInt().toString()
             itemHourForecastBinding.tvTime.text = time.toString()
 

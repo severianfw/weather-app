@@ -30,6 +30,9 @@ class MainViewModel : ViewModel() {
     private val _latitude = MutableLiveData<Double>()
     val latitude: LiveData<Double> = _latitude
 
+    private var testLat: Double = 0.1
+    private var testLong: Double = 0.1
+
     private val _cityName = MutableLiveData<String>()
     val cityName: LiveData<String> = _cityName
 
@@ -109,13 +112,14 @@ class MainViewModel : ViewModel() {
 
         // Get Location
         val fusedLocationProviderClient: FusedLocationProviderClient =
-            LocationServices.getFusedLocationProviderClient(activity.baseContext)
+            LocationServices.getFusedLocationProviderClient(activity)
         val task = fusedLocationProviderClient.lastLocation
 
         task.addOnSuccessListener {
             if (it != null) {
                 Toast.makeText(activity, "${it.longitude} ${it.latitude}", Toast.LENGTH_SHORT)
                     .show()
+                Log.e("TESTING", "${it.longitude} ${it.latitude}")
                 _latitude.value = it.latitude
                 _longitude.value = it.longitude
 
@@ -130,16 +134,25 @@ class MainViewModel : ViewModel() {
 
     private fun getCityName(activity: Activity, latitude: Double, longitude: Double) {
         val geocoder = Geocoder(activity, Locale.getDefault())
-        val address = geocoder.getFromLocation(latitude, longitude, 1)
 
-        _cityName.value = address[0].locality
+        try {
+            val address = geocoder.getFromLocation(latitude, longitude, 1)
+            _cityName.value = address[0].locality
+        } catch (e: Exception) {
+            Toast.makeText(activity, "$e", Toast.LENGTH_SHORT).show()
+        }
+
     }
 
     private fun getCountryName(activity: Activity, latitude: Double, longitude: Double) {
         val geocoder = Geocoder(activity, Locale.getDefault())
-        val address = geocoder.getFromLocation(latitude, longitude, 1)
 
-        _countryName.value = address[0].countryName
+        try {
+            val address = geocoder.getFromLocation(latitude, longitude, 1)
+            _countryName.value = address[0].countryName
+        } catch (e: Exception) {
+            Toast.makeText(activity, "$e", Toast.LENGTH_SHORT).show()
+        }
     }
 
 }
