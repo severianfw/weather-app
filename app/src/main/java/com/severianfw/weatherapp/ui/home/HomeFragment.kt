@@ -1,13 +1,13 @@
-package com.severianfw.weatherapp.ui
+package com.severianfw.weatherapp.ui.home
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.severianfw.weatherapp.databinding.FragmentHomeBinding
 import com.severianfw.weatherapp.helper.WeatherIconGenerator
@@ -18,7 +18,8 @@ import kotlin.properties.Delegates
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var mainViewModel: MainViewModel
+    private val homeViewModel by viewModels<HomeViewModel>()
+
 
     var latitude by Delegates.notNull<Double>()
     var longitude by Delegates.notNull<Double>()
@@ -29,28 +30,27 @@ class HomeFragment : Fragment() {
     ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        mainViewModel = MainViewModel()
         binding.rvHourlyWeather.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
         // Get City Name
-        mainViewModel.getCityName(requireActivity(), latitude, longitude)
-        mainViewModel.getCountryName(requireActivity(), latitude, longitude)
+        homeViewModel.getCityName(requireActivity(), latitude, longitude)
+        homeViewModel.getCountryName(requireActivity(), latitude, longitude)
 
         // Set city & country name
-        mainViewModel.cityName.observe(viewLifecycleOwner, {
+        homeViewModel.cityName.observe(viewLifecycleOwner, {
             binding.tvLocationCity.text = "$it, "
         })
-        mainViewModel.countryName.observe(viewLifecycleOwner, {
+        homeViewModel.countryName.observe(viewLifecycleOwner, {
             binding.tvLocationCountry.text = it
         })
 
         // Get hourly & main weather
-        mainViewModel.getHourlyWeather(latitude.toString(), longitude.toString())
-        mainViewModel.getMainWeather(latitude.toString(), longitude.toString())
+        homeViewModel.getHourlyWeather(latitude.toString(), longitude.toString())
+        homeViewModel.getMainWeather(latitude.toString(), longitude.toString())
 
         // Set weather data to view
-        mainViewModel.currentWeather.observe(viewLifecycleOwner, {
+        homeViewModel.currentWeather.observe(viewLifecycleOwner, {
             val weatherIcon = WeatherIconGenerator.getWeatherDayIcon(it.weather?.get(0)?.id)
 
             binding.apply {
@@ -60,7 +60,7 @@ class HomeFragment : Fragment() {
                 tvDate.text = getDate(it.dt)
             }
         })
-        mainViewModel.hourlyList.observe(viewLifecycleOwner, {
+        homeViewModel.hourlyList.observe(viewLifecycleOwner, {
             binding.rvHourlyWeather.adapter = HourlyListAdapter(it)
         })
 

@@ -1,19 +1,12 @@
-package com.severianfw.weatherapp.ui
+package com.severianfw.weatherapp.ui.home
 
-import android.app.Activity
-import android.content.Context
-import android.content.pm.PackageManager
 import android.location.Geocoder
-import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 import com.severianfw.weatherapp.model.CurrentWeatherResponse
 import com.severianfw.weatherapp.model.HourlyItem
 import com.severianfw.weatherapp.model.HourlyWeatherResponse
@@ -23,18 +16,9 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 
-class MainViewModel : ViewModel() {
+class HomeViewModel : ViewModel() {
     private val _hourlyList = MutableLiveData<List<HourlyItem>>()
     val hourlyList: LiveData<List<HourlyItem>> = _hourlyList
-
-    private val _longitude = MutableLiveData<Double>()
-    val longitude: LiveData<Double> = _longitude
-
-    private val _latitude = MutableLiveData<Double>()
-    val latitude: LiveData<Double> = _latitude
-
-    private var testLat: Double = 0.1
-    private var testLong: Double = 0.1
 
     private val _cityName = MutableLiveData<String>()
     val cityName: LiveData<String> = _cityName
@@ -46,14 +30,17 @@ class MainViewModel : ViewModel() {
     val currentWeather: LiveData<CurrentWeatherResponse> = _currentWeather
 
     companion object {
-        private const val TAG = "MainViewModel"
+        private const val TAG = "HomeViewModel"
         private const val APP_ID = "f616a171e894a0f88d0588d09b637097"
         private const val UNITS = "metric"
     }
 
     fun getHourlyWeather(latitude: String, longitude: String) {
         val client =
-            ApiConfig.getApiService().getHourlyWeather(latitude, longitude, "7", UNITS, APP_ID)
+            ApiConfig.getApiService().getHourlyWeather(latitude, longitude, "7",
+                UNITS,
+                APP_ID
+            )
         client.enqueue(object : Callback<HourlyWeatherResponse> {
             override fun onResponse(
                 call: Call<HourlyWeatherResponse>,
@@ -74,7 +61,10 @@ class MainViewModel : ViewModel() {
     }
 
     fun getMainWeather(latitude: String, longitude: String) {
-        val client = ApiConfig.getApiService().getMainWeather(latitude, longitude, UNITS, APP_ID)
+        val client = ApiConfig.getApiService().getMainWeather(latitude, longitude,
+            UNITS,
+            APP_ID
+        )
         client.enqueue(object : Callback<CurrentWeatherResponse> {
             override fun onResponse(
                 call: Call<CurrentWeatherResponse>,
@@ -92,45 +82,6 @@ class MainViewModel : ViewModel() {
             }
 
         })
-    }
-
-    fun fetchLocation(context: Context) {
-        // Check location permission
-        if (ActivityCompat.checkSelfPermission(
-                context,
-                android.Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-            && ActivityCompat.checkSelfPermission(
-                context,
-                android.Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                context as Activity,
-                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-                101
-            )
-            return
-        }
-
-        // Get Location
-        val fusedLocationProviderClient: FusedLocationProviderClient =
-            LocationServices.getFusedLocationProviderClient(context)
-        val task = fusedLocationProviderClient.lastLocation
-
-        task.addOnSuccessListener {
-            if (it != null) {
-                Toast.makeText(context, "${it.longitude} ${it.latitude}", Toast.LENGTH_SHORT)
-                    .show()
-                Log.e("TESTING", "${it.longitude} ${it.latitude}")
-
-                _latitude.value = it.latitude
-                _longitude.value = it.longitude
-            } else {
-                Toast.makeText(context, "Unable to find location!", Toast.LENGTH_SHORT)
-                    .show()
-            }
-        }
     }
 
     fun getCityName(context: FragmentActivity, latitude: Double, longitude: Double) {
@@ -155,5 +106,4 @@ class MainViewModel : ViewModel() {
             Toast.makeText(context, "$e", Toast.LENGTH_SHORT).show()
         }
     }
-
 }

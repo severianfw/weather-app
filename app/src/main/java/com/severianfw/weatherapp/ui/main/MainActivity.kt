@@ -1,19 +1,15 @@
-package com.severianfw.weatherapp.ui
+package com.severianfw.weatherapp.ui.main
 
 import android.annotation.SuppressLint
-import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commitNow
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.*
 import com.severianfw.weatherapp.R
 import com.severianfw.weatherapp.databinding.ActivityMainBinding
-import com.severianfw.weatherapp.helper.WeatherIconGenerator
-import java.text.SimpleDateFormat
+import com.severianfw.weatherapp.ui.home.HomeFragment
 import java.util.*
 import kotlin.properties.Delegates
 
@@ -34,8 +30,7 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-
-//        // Get Location
+        // Get Location
         mainViewModel.fetchLocation(this)
         mainViewModel.longitude.observe(this, {
             longitude = it
@@ -43,7 +38,6 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.latitude.observe(this, {
             latitude = it
         })
-
 
         binding.bottomNav.setOnItemSelectedListener {
             var fragment: Fragment? = null

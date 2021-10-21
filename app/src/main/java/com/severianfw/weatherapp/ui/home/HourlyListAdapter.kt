@@ -1,4 +1,4 @@
-package com.severianfw.weatherapp.ui
+package com.severianfw.weatherapp.ui.home
 
 import android.util.Log
 import android.view.LayoutInflater
