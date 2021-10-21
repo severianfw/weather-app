@@ -5,24 +5,25 @@ import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.R
-import androidx.appcompat.app.AppCompatDelegate
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.commitNow
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.*
+import com.severianfw.weatherapp.R
 import com.severianfw.weatherapp.databinding.ActivityMainBinding
 import com.severianfw.weatherapp.helper.WeatherIconGenerator
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.properties.Delegates
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val mainViewModel by viewModels<MainViewModel>()
 
-    private var latitude: Double = 0.1
-    private var longitude: Double = 0.1
+    private var latitude by Delegates.notNull<Double>()
+    private var longitude by Delegates.notNull<Double>()
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,62 +34,34 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-        binding.rvHourlyWeather.layoutManager =
-            LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
 
-        // Get Location
+//        // Get Location
         mainViewModel.fetchLocation(this)
         mainViewModel.longitude.observe(this, {
-            latitude = it
-        })
-        mainViewModel.latitude.observe(this, {
             longitude = it
         })
-
-        // Set city & country name
-        mainViewModel.cityName.observe(this, {
-            binding.tvLocationCity.text = "$it, "
-        })
-        mainViewModel.countryName.observe(this, {
-            binding.tvLocationCountry.text = it
+        mainViewModel.latitude.observe(this, {
+            latitude = it
         })
 
-        // Get hourly & main weather
-        mainViewModel.getHourlyWeather(latitude.toString(), longitude.toString())
-        mainViewModel.getMainWeather(latitude.toString(), longitude.toString())
 
-        // Set weather data to view
-        mainViewModel.currentWeather.observe(this, {
-            val weatherIcon = WeatherIconGenerator.getWeatherDayIcon(it.weather?.get(0)?.id)
-
-            binding.apply {
-                tvTemperature.text = it.main?.temp?.toInt().toString()
-                tvMainWeather.text = it.weather?.get(0)?.description
-                icMainWeather.setImageResource(weatherIcon)
-                tvDate.text = getDate(it.dt)
+        binding.bottomNav.setOnItemSelectedListener {
+            var fragment: Fragment? = null
+            when (it.itemId) {
+                R.id.nav_home -> {
+                    fragment = HomeFragment()
+                    fragment.latitude = latitude
+                    fragment.longitude = longitude
+                }
             }
-        })
-        mainViewModel.hourlyList.observe(this, {
-            binding.rvHourlyWeather.adapter = HourlyListAdapter(it)
-        })
-    }
 
-    override fun onStart() {
-        super.onStart()
-        val nightModeFlags = baseContext.resources.configuration.uiMode
-
-        if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES + 1) {
-            binding.icLocation.setImageResource(com.severianfw.weatherapp.R.drawable.ic_location_white)
-        } else {
-            binding.icLocation.setImageResource(com.severianfw.weatherapp.R.drawable.ic_location_black)
+            supportFragmentManager.commitNow {
+                if (fragment != null) {
+                    replace(binding.fragmentContainer.id, fragment)
+                }
+            }
+            return@setOnItemSelectedListener true
         }
     }
 
-    @SuppressLint("SimpleDateFormat")
-    private fun getDate(unix: Int): String {
-        val simpleDateFormat = SimpleDateFormat("dd MMMM yyyy")
-        val date = Date(unix.toLong() * 1000)
-
-        return simpleDateFormat.format(date)
-    }
 }

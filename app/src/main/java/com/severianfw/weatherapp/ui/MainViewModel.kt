@@ -1,11 +1,14 @@
 package com.severianfw.weatherapp.ui
 
 import android.app.Activity
+import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Geocoder
+import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -91,19 +94,19 @@ class MainViewModel : ViewModel() {
         })
     }
 
-    fun fetchLocation(activity: Activity) {
+    fun fetchLocation(context: Context) {
         // Check location permission
         if (ActivityCompat.checkSelfPermission(
-                activity.baseContext,
+                context,
                 android.Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
             && ActivityCompat.checkSelfPermission(
-                activity.baseContext,
+                context,
                 android.Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             ActivityCompat.requestPermissions(
-                activity,
+                context as Activity,
                 arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
                 101
             )
@@ -112,46 +115,44 @@ class MainViewModel : ViewModel() {
 
         // Get Location
         val fusedLocationProviderClient: FusedLocationProviderClient =
-            LocationServices.getFusedLocationProviderClient(activity)
+            LocationServices.getFusedLocationProviderClient(context)
         val task = fusedLocationProviderClient.lastLocation
 
         task.addOnSuccessListener {
             if (it != null) {
-                Toast.makeText(activity, "${it.longitude} ${it.latitude}", Toast.LENGTH_SHORT)
+                Toast.makeText(context, "${it.longitude} ${it.latitude}", Toast.LENGTH_SHORT)
                     .show()
                 Log.e("TESTING", "${it.longitude} ${it.latitude}")
+
                 _latitude.value = it.latitude
                 _longitude.value = it.longitude
-
-                getCityName(activity, it.latitude, it.longitude)
-                getCountryName(activity, it.latitude, it.longitude)
             } else {
-                Toast.makeText(activity, "Unable to find location!", Toast.LENGTH_SHORT)
+                Toast.makeText(context, "Unable to find location!", Toast.LENGTH_SHORT)
                     .show()
             }
         }
     }
 
-    private fun getCityName(activity: Activity, latitude: Double, longitude: Double) {
-        val geocoder = Geocoder(activity, Locale.getDefault())
+    fun getCityName(context: FragmentActivity, latitude: Double, longitude: Double) {
+        val geocoder = Geocoder(context, Locale.getDefault())
 
         try {
             val address = geocoder.getFromLocation(latitude, longitude, 1)
             _cityName.value = address[0].locality
         } catch (e: Exception) {
-            Toast.makeText(activity, "$e", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "$e", Toast.LENGTH_SHORT).show()
         }
 
     }
 
-    private fun getCountryName(activity: Activity, latitude: Double, longitude: Double) {
-        val geocoder = Geocoder(activity, Locale.getDefault())
+    fun getCountryName(context: FragmentActivity, latitude: Double, longitude: Double) {
+        val geocoder = Geocoder(context, Locale.getDefault())
 
         try {
             val address = geocoder.getFromLocation(latitude, longitude, 1)
             _countryName.value = address[0].countryName
         } catch (e: Exception) {
-            Toast.makeText(activity, "$e", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "$e", Toast.LENGTH_SHORT).show()
         }
     }
 

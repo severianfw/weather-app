@@ -21,7 +21,7 @@ class HourlyListAdapter(private val listHourlyItem: List<HourlyItem>) :
             time = time?.substring(11, 16)
             time = time?.replace(':', '.')
 
-            Log.e("TESTING", item.temperatureDetail?.temp?.toInt().toString())
+            Log.e("TESTING", item.temperatureDetail.toString())
             itemHourForecastBinding.tvHourTemperature.text = item.temperatureDetail?.temp?.toInt().toString()
             itemHourForecastBinding.tvTime.text = time.toString()
 
@@ -40,6 +40,7 @@ class HourlyListAdapter(private val listHourlyItem: List<HourlyItem>) :
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         holder.bind(listHourlyItem[position])
+        Log.e("POSITION", position.toString())
     }
 
     override fun getItemCount(): Int = listHourlyItem.size
