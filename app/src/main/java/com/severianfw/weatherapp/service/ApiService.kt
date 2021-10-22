@@ -24,4 +24,10 @@ interface ApiService {
         @Query("appid") appId: String
     ): Call<CurrentWeatherResponse>
 
+    @GET("data/2.5/weather")
+    fun getWeatherByCityName(
+        @Query("q") cityName: String,
+        @Query("units") units: String,
+        @Query("appid") appId: String
+    ): Call<CurrentWeatherResponse>
 }

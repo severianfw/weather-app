@@ -15,14 +15,24 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.properties.Delegates
 
+private const val LATITUDE = "latitude"
+private const val LONGITUDE = "longitude"
+
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private val homeViewModel by viewModels<HomeViewModel>()
 
+    private var latitude by Delegates.notNull<Double>()
+    private var longitude by Delegates.notNull<Double>()
 
-    var latitude by Delegates.notNull<Double>()
-    var longitude by Delegates.notNull<Double>()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            latitude = it.getDouble(LATITUDE)
+            longitude = it.getDouble(LONGITUDE)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -85,6 +95,17 @@ class HomeFragment : Fragment() {
         val date = Date(unix.toLong() * 1000)
 
         return simpleDateFormat.format(date)
+    }
+
+    companion object {
+        @JvmStatic
+        fun newInstance(latitude: Double, longitude: Double) =
+            HomeFragment().apply {
+                arguments = Bundle().apply {
+                    putDouble(LATITUDE, latitude)
+                    putDouble(LONGITUDE, longitude)
+                }
+            }
     }
 
 }

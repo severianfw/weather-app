@@ -10,6 +10,7 @@ import com.google.android.gms.location.*
 import com.severianfw.weatherapp.R
 import com.severianfw.weatherapp.databinding.ActivityMainBinding
 import com.severianfw.weatherapp.ui.home.HomeFragment
+import com.severianfw.weatherapp.ui.search.SearchFragment
 import java.util.*
 import kotlin.properties.Delegates
 
@@ -43,9 +44,10 @@ class MainActivity : AppCompatActivity() {
             var fragment: Fragment? = null
             when (it.itemId) {
                 R.id.nav_home -> {
-                    fragment = HomeFragment()
-                    fragment.latitude = latitude
-                    fragment.longitude = longitude
+                    fragment = HomeFragment.newInstance(latitude, longitude)
+                }
+                R.id.nav_search -> {
+                    fragment = SearchFragment()
                 }
             }
 
