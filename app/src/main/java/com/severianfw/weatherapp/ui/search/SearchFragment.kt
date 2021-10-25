@@ -1,16 +1,19 @@
 package com.severianfw.weatherapp.ui.search
 
-import android.content.Intent
+import android.app.Activity
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.commit
+import androidx.fragment.app.commitNow
+import com.severianfw.weatherapp.R
 import com.severianfw.weatherapp.databinding.FragmentSearchBinding
-import com.severianfw.weatherapp.ui.detail.DetailActivity
+import com.severianfw.weatherapp.ui.detail.DetailFragment
 
 class SearchFragment : Fragment() {
 
@@ -26,9 +29,13 @@ class SearchFragment : Fragment() {
         binding.searchBarCity.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query != null) {
-                    val intent = Intent(activity, DetailActivity::class.java)
-                    intent.putExtra("CITY", query)
-                    startActivity(intent)
+                    val fragment = DetailFragment.newInstance(query)
+                    closeKeyboard()
+
+                    parentFragmentManager.commit {
+                        addToBackStack("main")
+                        replace(R.id.fragment_container, fragment)
+                    }
                 }
                 return true
             }
@@ -39,5 +46,12 @@ class SearchFragment : Fragment() {
         })
 
         return binding.root
+    }
+
+    private fun closeKeyboard() {
+        val view = view?.rootView?.windowToken
+
+        var imm: InputMethodManager = context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view, 0)
     }
 }

@@ -1,6 +1,5 @@
 package com.severianfw.weatherapp.ui.home
 
-import android.annotation.SuppressLint
 import android.content.res.Configuration
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,9 +9,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.severianfw.weatherapp.databinding.FragmentHomeBinding
+import com.severianfw.weatherapp.helper.DateConverter
 import com.severianfw.weatherapp.helper.WeatherIconGenerator
-import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.properties.Delegates
 
 private const val LATITUDE = "latitude"
@@ -67,7 +65,7 @@ class HomeFragment : Fragment() {
                 tvTemperature.text = it.main?.temp?.toInt().toString()
                 tvMainWeather.text = it.weather?.get(0)?.description
                 icMainWeather.setImageResource(weatherIcon)
-                tvDate.text = getDate(it.dt)
+                tvDate.text = DateConverter.unixToDate(it.dt)
             }
         })
         homeViewModel.hourlyList.observe(viewLifecycleOwner, {
@@ -87,14 +85,6 @@ class HomeFragment : Fragment() {
         } else {
             binding.icLocation.setImageResource(com.severianfw.weatherapp.R.drawable.ic_location_black)
         }
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    private fun getDate(unix: Int): String {
-        val simpleDateFormat = SimpleDateFormat("dd MMMM yyyy")
-        val date = Date(unix.toLong() * 1000)
-
-        return simpleDateFormat.format(date)
     }
 
     companion object {

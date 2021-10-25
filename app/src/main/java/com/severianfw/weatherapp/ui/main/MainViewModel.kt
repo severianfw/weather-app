@@ -3,6 +3,7 @@ package com.severianfw.weatherapp.ui.main
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
+import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -14,17 +15,13 @@ import com.google.android.gms.location.LocationServices
 
 class MainViewModel : ViewModel() {
 
-    private val _longitude = MutableLiveData<Double>()
-    val longitude: LiveData<Double> = _longitude
-
-    private val _latitude = MutableLiveData<Double>()
-    val latitude: LiveData<Double> = _latitude
-
-    private var testLat: Double = 0.1
-    private var testLong: Double = 0.1
+    private var _latLongBundle = MutableLiveData<Bundle>()
+    val latLongBundle: LiveData<Bundle> = _latLongBundle
 
     companion object {
         private const val TAG = "MainViewModel"
+        const val LATITUDE = "latitude"
+        const val LONGITUDE = "longitude"
     }
 
     fun fetchLocation(context: Context) {
@@ -55,10 +52,13 @@ class MainViewModel : ViewModel() {
             if (it != null) {
                 Toast.makeText(context, "${it.longitude} ${it.latitude}", Toast.LENGTH_SHORT)
                     .show()
-                Log.e(TAG, "${it.longitude} ${it.latitude}")
+//                Log.e(TAG, "${it.longitude} ${it.latitude}")
 
-                _latitude.value = it.latitude
-                _longitude.value = it.longitude
+                val newBundle = Bundle()
+                newBundle.putDouble(LATITUDE, it.latitude)
+                newBundle.putDouble(LONGITUDE, it.longitude)
+
+                _latLongBundle.value = newBundle
             } else {
                 Toast.makeText(context, "Unable to find location!", Toast.LENGTH_SHORT)
                     .show()
