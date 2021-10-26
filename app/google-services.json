@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "493868275721",
+    "project_id": "weather-app-2b0a8",
+    "storage_bucket": "weather-app-2b0a8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:493868275721:android:e497e96747aec67e1100d8",
+        "android_client_info": {
+          "package_name": "com.severianfw.weatherapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "493868275721-8qej585af00q3b9fjihj25qio9j94frk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhi4wXgrU2XeON4RWT-h8_IFtOlm6thvs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "493868275721-8qej585af00q3b9fjihj25qio9j94frk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
